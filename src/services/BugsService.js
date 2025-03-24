@@ -31,5 +31,20 @@ class BugsService {
     return bugToUpdate
   }
 
+
+  // TODO need to figure out correct way to check id
+
+
+
+  async deleteBug(userInfo, bugId) {
+    const bugToDelete = await this.getBugById(bugId)
+    if (bugToDelete.creatorId != userInfo.id) {
+      throw new Forbidden('you cant delete a bug you did not create')
+    }
+    await bugToDelete.deleteOne()
+    await bugToDelete.save()
+    return `${bugToDelete.title} was deleted`
+  }
+
 }
 export const bugsService = new BugsService()
