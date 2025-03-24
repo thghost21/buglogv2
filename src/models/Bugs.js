@@ -1,4 +1,4 @@
-const { Schema } = require("mongoose");
+import { Schema } from "mongoose";
 
 export const BugsSchema = new Schema(
   {
@@ -16,3 +16,9 @@ export const BugsSchema = new Schema(
     toJSON: { virtuals: true, versionKey: false }
   }
 )
+BugsSchema.virtual('creator', {
+  localField: 'creatorId',
+  foreignField: '_id',
+  ref: 'Account',
+  justOne: true
+})
